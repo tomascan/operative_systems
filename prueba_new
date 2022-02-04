@@ -1,0 +1,49 @@
+#!/bin/bash
+
+while("$1" == "out")
+
+if [ "$1" == "new" ]
+then 
+	shift
+	name="project_$1"
+	
+	shift 
+	if [ "$1" == "-d" ]
+	then
+	
+		shift 
+		pth="$1"
+		echo "$pth"
+		cd pth
+	fi
+	
+	mkdir "${PROJDIR}"
+	cd "${PROJDIR}"
+	
+	mkdir src 
+	mkdir include 
+	mkdir build
+	mkdir tests 
+	touch Makefile
+		
+	cd src 
+	touch main.c
+	
+	
+	
+	cat <<EOF >${PROJDIR}/src/main.c
+
+int main() {
+  PrintHelloWorld();
+    return(0);
+    }
+    EOF
+
+
+fi
+
+if [ "$1" == "add" ]
+then
+	shift 
+	echo "$name"
+fi

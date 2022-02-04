@@ -1,0 +1,28 @@
+#!/bin/bash
+
+
+echo "$(basename "$0") "$1" "$2""
+
+
+if [ "$1"  == "-h" ] || [ "$1" == "--help" ]
+then 
+	echo "-help -- Muestra ayuda para los comandos disponibles"
+	echo "-new -- Crea un nuevo proyecto con el nombre de la actual localizacion "
+	echo "-activate -- Activa un proyecto existent, cambia el prompt y inicia un nuevo shell"
+	echo "-add -- añade un archivo .h al directorio include y un archivo .c al directorio src "
+	echo ""
+	case $2 in
+	"-n")
+		echo "Funcion new hace tal y tal"
+	;;
+	"-a") 
+		echo " Has invocado a la ayuda de activate"
+	;;
+	*) 
+		echo " Introduce un comando al que solicitar ayuda "
+		read $2
+		echo " Imprime : "$1" "$2" "
+		help $1 $2
+		;;
+	esac
+fi

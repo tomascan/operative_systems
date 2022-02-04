@@ -1,0 +1,47 @@
+#!/bin/bash
+
+#Definicion de variable de entorno 
+
+export PROJNAME=${1:-demo}
+export PROJDIR=${2:-~/project_${PROJNAME}}
+
+
+
+function creaMakefile(){
+
+MAKEFILE=$1
+TAB="$(printf '\t')"
+
+cat <<EOF >$MAKEFILE
+IDIR=./include
+INSTALLDIR=./bin
+SDIR=./src
+ODIR=./obj
+CC=gcc
+CFLAGS=-I\$(IDIR)
+LIBS=-lm
+_DEPS = main.h
+DEPS = \$(patsubst %,\$(IDIR)/%,\$(_DEPS))
+_OBJ = main.o mainfunc.o 
+OBJ = \$(patsubst %,\$(ODIR)/%,\$(_OBJ))
+.PHONY: all
+all: \$(PROJNAME)
+\$(ODIR)/%.o: \$(SDIR)/%.c \$(DEPS)
+${TAB}@mkdir -p \$(@D)
+${TAB}@mkdir -p \$(INSTALLDIR)
+${TAB}\$(CC) -c -o \$@ \$< \$(CFLAGS)
+\$(PROJNAME): \$(OBJ)
+${TAB}\$(CC) -o \$@ \$^ \$(CFLAGS) \$(LIBS)
+.PHONY: install
+install:
+${TAB}mkdir -p \$(INSTALLDIR)
+${TAB}mv \$(PROJNAME) \$(INSTALLDIR)
+.PHONY: clean
+clean:
+${TAB}rm -f \$(ODIR)/*.o *~ core \$(INCDIR)/*~ 
+${TAB}rm -f \$(PROJNAME)
+${TAB}rm -f \$(INSTALLDIR)/\$(PROJNAME)
+${TAB}rmdir \$(INSTALLDIR) \$(ODIR)
+EOF
+}
+

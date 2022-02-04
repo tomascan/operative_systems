@@ -1,0 +1,30 @@
+#!/bin/bash
+
+while("$1" == "out")
+
+if [ "$1" == "new" ]
+then 
+	shift
+	name="project_$1"
+	
+	shift 
+	if [ "$1" == "-d" ]
+	then
+	
+		shift 
+		pth="$1"
+		echo "$pth"
+		cd pth
+	fi
+	
+	mkdir "$name"
+	cd "$name"
+	
+	mkdir src 
+	mkdir include 
+	mkdir build
+	mkdir tests 
+	touch Makefile
+		
+	cd src 
+	touch main.c
